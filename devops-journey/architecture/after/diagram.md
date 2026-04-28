@@ -1,39 +1,9 @@
-# Current Architecture Diagram
+# Current Diagram
 
 ```
-+-----------------------------------------------------------------------+
-|                          AWS (us-east-1)                              |
-|                                                                       |
-|  +----------------------------------------------------------------+   |
-|  |                  Custom VPC (10.0.0.0/16)                      |   |
-|  |                                                                |   |
-|  |  Public Subnets (AZ-a, AZ-b)      Private Subnets             |   |
-|  |  +----------------+            +-------------------------+     |   |
-|  |  |      ALB       +----------->|   EKS Node Groups       |     |   |
-|  |  +----------------+            |  (App + System pods)    |     |   |
-|  |  +----------------+            +------------+------------+     |   |
-|  |  |  NAT Gateway   |                         |                  |   |
-|  |  +----------------+            +------------v------------+     |   |
-|  |                                |   RDS PostgreSQL         |     |   |
-|  |                                |   (Multi-AZ + Replica)   |     |   |
-|  |                                +-------------------------+     |   |
-|  |                                |   ElastiCache Redis      |     |   |
-|  |                                +-------------------------+     |   |
-|  |                                |   MSK (Kafka)            |     |   |
-|  |                                +-------------------------+     |   |
-|  +----------------------------------------------------------------+   |
-|                                                                       |
-|  +--------------+  +--------------+  +--------------------------+     |
-|  |  S3 Buckets  |  |   Route53    |  | Secrets Manager / Vault  |     |
-|  +--------------+  +--------------+  +--------------------------+     |
-+-----------------------------------------------------------------------+
-                              ^
-              +---------------+---------------+
-              |        GitHub Actions          |
-              |  PR -> CI -> ArgoCD sync ->    |
-              |       EKS deployment           |
-              +--------------------------------+
+AWS VPC → ALB → EKS
+             → RDS Multi-AZ
+             → ElastiCache
+             → MSK Kafka
+GitHub Actions → ArgoCD → EKS
 ```
-
-> All infra defined in Terraform. All deployments via GitOps (ArgoCD).
-> Zero manual SSH to production servers.
