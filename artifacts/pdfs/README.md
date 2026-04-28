@@ -1,3 +1,3 @@
 # PDFs
 
-Claude-generated PDF documents — reports, formatted documents, and exports.
+Claude-generated PDF documents.
