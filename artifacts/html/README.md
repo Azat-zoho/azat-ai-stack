@@ -1,3 +1,3 @@
-# HTML Artifacts
+# HTML
 
-Claude-generated HTML files — interactive tools, dashboards, and visualizations.
+Claude-generated HTML files.
